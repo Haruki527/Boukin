@@ -1,0 +1,23 @@
+POST http://localhost:8080/api/calculate
+content-Type: application/json
+
+{
+  "coins_1": 10,
+  "coins_5": 5,
+  "coins_10": 3,
+  "coins_50": 2,
+  "coins_100": 4,
+  "coins_500": 2,
+
+  "coin_rolls_1": 1,
+  "coin_rolls_5": 1,
+  "coin_rolls_10": 1,
+  "coin_rolls_50": 1,
+  "coin_rolls_100": 1,
+  "coin_rolls_500": 1,
+
+  "banknotes_1k": 1,
+  "banknotes_2k": 1,
+  "banknotes_5k": 1,
+  "banknotes_10k": 1
+}
