@@ -1,5 +1,6 @@
 package org.sample.boukin.controller;
 
+import jakarta.validation.Valid;
 import org.sample.boukin.dto.CalculateRequest;
 import org.sample.boukin.dto.CalculateResponse;
 import org.sample.boukin.service.CalculateService;
@@ -17,7 +18,7 @@ public class CalculateController {
 
     @PostMapping("/calculate")
     public CalculateResponse calculate(
-            @RequestBody CalculateRequest request) {
+            @Valid @RequestBody CalculateRequest request) {
 
         return calculateService.calculate(request);
     }

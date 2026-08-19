@@ -118,6 +118,8 @@ function App() {
               <label>1円</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coins_1"
                   value={formData.coins_1}
                   onChange={handleChange}
@@ -128,6 +130,8 @@ function App() {
               <label>5円</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coins_5"
                   value={formData.coins_5}
                   onChange={handleChange}
@@ -138,6 +142,8 @@ function App() {
               <label>10円</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coins_10"
                   value={formData.coins_10}
                   onChange={handleChange}
@@ -148,6 +154,8 @@ function App() {
               <label>50円</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coins_50"
                   value={formData.coins_50}
                   onChange={handleChange}
@@ -158,6 +166,8 @@ function App() {
               <label>100円</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coins_100"
                   value={formData.coins_100}
                   onChange={handleChange}
@@ -168,6 +178,8 @@ function App() {
               <label>500円</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coins_500"
                   value={formData.coins_500}
                   onChange={handleChange}
@@ -185,6 +197,8 @@ function App() {
               <label>1円棒金</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coin_rolls_1"
                   value={formData.coin_rolls_1}
                   onChange={handleChange}
@@ -195,6 +209,8 @@ function App() {
               <label>5円棒金</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coin_rolls_5"
                   value={formData.coin_rolls_5}
                   onChange={handleChange}
@@ -205,6 +221,8 @@ function App() {
               <label>10円棒金</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coin_rolls_10"
                   value={formData.coin_rolls_10}
                   onChange={handleChange}
@@ -215,6 +233,8 @@ function App() {
               <label>50円棒金</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coin_rolls_50"
                   value={formData.coin_rolls_50}
                   onChange={handleChange}
@@ -225,6 +245,8 @@ function App() {
               <label>100円棒金</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coin_rolls_100"
                   value={formData.coin_rolls_100}
                   onChange={handleChange}
@@ -235,6 +257,8 @@ function App() {
               <label>500円棒金</label>
               <input
                   type="number"
+                  min="0"
+                  step="1"
                   name="coin_rolls_500"
                   value={formData.coin_rolls_500}
                   onChange={handleChange}
@@ -254,6 +278,8 @@ function App() {
             <label>千円</label>
             <input
                 type="number"
+                min="0"
+                step="1"
                 name="banknotes_1k"
                 value={formData.banknotes_1k}
                 onChange={handleChange}
@@ -264,6 +290,8 @@ function App() {
             <label>二千円</label>
             <input
                 type="number"
+                min="0"
+                step="1"
                 name="banknotes_2k"
                 value={formData.banknotes_2k}
                 onChange={handleChange}
@@ -274,6 +302,8 @@ function App() {
             <label>五千円</label>
             <input
                 type="number"
+                min="0"
+                step="1"
                 name="banknotes_5k"
                 value={formData.banknotes_5k}
                 onChange={handleChange}
@@ -284,6 +314,8 @@ function App() {
             <label>壱万円</label>
             <input
                 type="number"
+                min="0"
+                step="1"
                 name="banknotes_10k"
                 value={formData.banknotes_10k}
                 onChange={handleChange}

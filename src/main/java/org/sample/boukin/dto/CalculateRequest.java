@@ -1,24 +1,45 @@
 package org.sample.boukin.dto;
 
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class CalculateRequest {
 
+    // 硬貨
+    @PositiveOrZero
     private Integer coins_1;
+    @PositiveOrZero
     private Integer coins_5;
+    @PositiveOrZero
     private Integer coins_10;
+    @PositiveOrZero
     private Integer coins_50;
+    @PositiveOrZero
     private Integer coins_100;
+    @PositiveOrZero
     private Integer coins_500;
 
+    // 棒金
+    @PositiveOrZero
     private Integer coin_rolls_1;
+    @PositiveOrZero
     private Integer coin_rolls_5;
+    @PositiveOrZero
     private Integer coin_rolls_10;
+    @PositiveOrZero
     private Integer coin_rolls_50;
+    @PositiveOrZero
     private Integer coin_rolls_100;
+    @PositiveOrZero
     private Integer coin_rolls_500;
 
+    // お札
+    @PositiveOrZero
     private Integer banknotes_1k;
+    @PositiveOrZero
     private Integer banknotes_2k;
+    @PositiveOrZero
     private Integer banknotes_5k;
+    @PositiveOrZero
     private Integer banknotes_10k;
 
     public Integer getcoins_1() {
