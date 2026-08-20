@@ -9,8 +9,6 @@ public class CalculateService {
 
     public CalculateResponse calculate(CalculateRequest request) {
 
-        System.out.println("500円棒金 = " + request.getcoin_rolls_500());
-
         int total = 0;
 
         // 通常硬貨

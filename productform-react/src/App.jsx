@@ -1,10 +1,40 @@
 import "./App.css";
 import { useState } from "react";
+import { calculateMoney } from "./services/calculateApi";
+
+import MoneySection from "./components/MoneySection";
+import ActionButtons from "./components/ActionButtons";
+import ResultDisplay from "./components/TotalDisplay";
 
 function App() {
 
+  const coinItems = [
+    { label: "1円", name: "coins_1" },
+    { label: "5円", name: "coins_5" },
+    { label: "10円", name: "coins_10" },
+    { label: "50円", name: "coins_50" },
+    { label: "100円", name: "coins_100" },
+    { label: "500円", name: "coins_500" },
+  ];
+
+  const rollItems = [
+    { label: "1円棒金", name: "coin_rolls_1" },
+    { label: "5円棒金", name: "coin_rolls_5" },
+    { label: "10円棒金", name: "coin_rolls_10" },
+    { label: "50円棒金", name: "coin_rolls_50" },
+    { label: "100円棒金", name: "coin_rolls_100" },
+    { label: "500円棒金", name: "coin_rolls_500" },
+  ];
+
+  const banknoteItems = [
+    { label: "千円", name: "banknotes_1k" },
+    { label: "二千円", name: "banknotes_2k" },
+    { label: "五千円", name: "banknotes_5k" },
+    { label: "壱万円", name: "banknotes_10k" },
+  ];
+
   // 入力フォームの値
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     coins_1: "",
     coins_5: "",
     coins_10: "",
@@ -23,82 +53,70 @@ function App() {
     banknotes_2k: "",
     banknotes_5k: "",
     banknotes_10k: ""
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   // 計算結果
   const [totalAmount, setTotalAmount] = useState(0);
 
+  // エラーメッセージ
+  const [errorMessage, setErrorMessage] = useState("");
+
   // 入力フォームが変更されたとき
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
+
+    // 空欄は許可する
+    if (value === "") {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+
+      setErrorMessage("");
+      return;
+    }
+
+    // 0以上の整数かチェック
+    if (!/^\d+$/.test(value)) {
+      setErrorMessage("枚数・本数は0以上の整数で入力してください。");
+      return;
+    }
 
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
+
+    // 正しい入力ならエラーを消す
+    setErrorMessage("");
   };
 
   // クリアボタン
   const handleClear = () => {
-    setFormData({
-      coins_1: "",
-      coins_5: "",
-      coins_10: "",
-      coins_50: "",
-      coins_100: "",
-      coins_500: "",
-
-      coin_rolls_1: "",
-      coin_rolls_5: "",
-      coin_rolls_10: "",
-      coin_rolls_50: "",
-      coin_rolls_100: "",
-      coin_rolls_500: "",
-
-      banknotes_1k: "",
-      banknotes_2k: "",
-      banknotes_5k: "",
-      banknotes_10k: ""
-    });
-
+    setFormData(initialFormData);
     setTotalAmount(0);
+    setErrorMessage("");
   };
 
   // 計算ボタン
   const handleCalculate = async () => {
 
-    // 空欄は0として送信
-    const requestData = {};
-
-    Object.keys(formData).forEach((key) => {
-      requestData[key] =
-          formData[key] === "" ? 0 : Number(formData[key]);
-    });
+    if (errorMessage) {
+      alert("入力内容を修正してください。");
+      return;
+    }
 
     try {
 
-      const response = await fetch(
-          "http://localhost:8080/api/calculate",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(requestData)
-          }
-      );
-
-      if (!response.ok) {
-        throw new Error("計算に失敗しました");
-      }
-
-      const data = await response.json();
+      const data = await calculateMoney(formData);
 
       setTotalAmount(data.totalAmount);
 
     } catch (error) {
       console.error(error);
-      alert("計算に失敗しました");
+      alert(error.message);
     }
   };
 
@@ -110,237 +128,48 @@ function App() {
         <div className="coin-section">
 
           {/* 硬貨 */}
-          <div className="coin-column">
-
-            <h2>硬貨</h2>
-
-            <div className="input-row">
-              <label>1円</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coins_1"
-                  value={formData.coins_1}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>5円</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coins_5"
-                  value={formData.coins_5}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>10円</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coins_10"
-                  value={formData.coins_10}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>50円</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coins_50"
-                  value={formData.coins_50}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>100円</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coins_100"
-                  value={formData.coins_100}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>500円</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coins_500"
-                  value={formData.coins_500}
-                  onChange={handleChange}
-              />
-            </div>
-
-          </div>
+          <MoneySection
+              title="硬貨"
+              items={coinItems}
+              formData={formData}
+              handleChange={handleChange}
+          />
 
           {/* 棒金 */}
-          <div className="roll-column">
-
-            <h2>棒金</h2>
-
-            <div className="input-row">
-              <label>1円棒金</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coin_rolls_1"
-                  value={formData.coin_rolls_1}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>5円棒金</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coin_rolls_5"
-                  value={formData.coin_rolls_5}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>10円棒金</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coin_rolls_10"
-                  value={formData.coin_rolls_10}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>50円棒金</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coin_rolls_50"
-                  value={formData.coin_rolls_50}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>100円棒金</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coin_rolls_100"
-                  value={formData.coin_rolls_100}
-                  onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-row">
-              <label>500円棒金</label>
-              <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  name="coin_rolls_500"
-                  value={formData.coin_rolls_500}
-                  onChange={handleChange}
-              />
-            </div>
-
-          </div>
+          <MoneySection
+              title="棒金"
+              items={rollItems}
+              formData={formData}
+              handleChange={handleChange}
+          />
 
         </div>
 
         {/* 紙幣 */}
         <div className="banknote-section">
-
-          <h2>紙幣</h2>
-
-          <div className="input-row">
-            <label>千円</label>
-            <input
-                type="number"
-                min="0"
-                step="1"
-                name="banknotes_1k"
-                value={formData.banknotes_1k}
-                onChange={handleChange}
+            <MoneySection
+                title="紙幣"
+                items={banknoteItems}
+                formData={formData}
+                handleChange={handleChange}
             />
-          </div>
-
-          <div className="input-row">
-            <label>二千円</label>
-            <input
-                type="number"
-                min="0"
-                step="1"
-                name="banknotes_2k"
-                value={formData.banknotes_2k}
-                onChange={handleChange}
-            />
-          </div>
-
-          <div className="input-row">
-            <label>五千円</label>
-            <input
-                type="number"
-                min="0"
-                step="1"
-                name="banknotes_5k"
-                value={formData.banknotes_5k}
-                onChange={handleChange}
-            />
-          </div>
-
-          <div className="input-row">
-            <label>壱万円</label>
-            <input
-                type="number"
-                min="0"
-                step="1"
-                name="banknotes_10k"
-                value={formData.banknotes_10k}
-                onChange={handleChange}
-            />
-          </div>
-
         </div>
+
+        {/*エラーメッセージ*/}
+        {errorMessage && (
+            <p className="error-message">
+              {errorMessage}
+              </p>
+        )}
 
         {/* ボタン */}
-        <div className="button-section">
-
-          <button onClick={handleCalculate}>
-            計算
-          </button>
-
-          <button onClick={handleClear}>
-            クリア
-          </button>
-
-        </div>
+        <ActionButtons
+            handleCalculate={handleCalculate}
+            handleClear={handleClear}
+        />
 
         {/* 結果 */}
-        <div className="result">
-          合計金額：{totalAmount.toLocaleString()}円
-        </div>
+        <ResultDisplay totalAmount={totalAmount} />
 
       </div>
   );

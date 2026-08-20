@@ -17,9 +17,8 @@ h2 {
   gap: 80px;
 }
 
-.coin-column,
-.roll-column {
-  width: 200px;
+.money-column {
+  width: 220px;
 }
 
 .input-row {
@@ -56,5 +55,13 @@ h2 {
   margin-top: 30px;
   text-align: center;
   font-size: 24px;
+  font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
   font-weight: bold;
 }
