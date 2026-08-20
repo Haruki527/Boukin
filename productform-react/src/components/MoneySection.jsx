@@ -13,7 +13,7 @@ function MoneySection({
                     <label>{item.label}</label>
 
                     <input
-                        type="number"
+                        type="text"
                         min="0"
                         step="1"
                         name={item.name}

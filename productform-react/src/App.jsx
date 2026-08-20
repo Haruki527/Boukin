@@ -4,7 +4,7 @@ import { calculateMoney } from "./services/calculateApi";
 
 import MoneySection from "./components/MoneySection";
 import ActionButtons from "./components/ActionButtons";
-import ResultDisplay from "./components/TotalDisplay";
+import TotalDisplay from "./components/TotalDisplay";
 
 function App() {
 
@@ -80,7 +80,7 @@ function App() {
 
     // 0以上の整数かチェック
     if (!/^\d+$/.test(value)) {
-      setErrorMessage("枚数・本数は0以上の整数で入力してください。");
+      setErrorMessage("枚数・本数は半角数字の0以上の整数で入力してください。");
       return;
     }
 
@@ -169,7 +169,7 @@ function App() {
         />
 
         {/* 結果 */}
-        <ResultDisplay totalAmount={totalAmount} />
+        <TotalDisplay totalAmount={totalAmount} />
 
       </div>
   );
