@@ -65,12 +65,13 @@ function App() {
 
   // 入力フォームが変更されたとき
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
+
       setErrorMessage("");
     }
 
@@ -86,21 +87,29 @@ function App() {
     const cleanedData = { ...formData };
     let hasError = false;
 
+    // 空欄時は許可
     Object.keys(cleanedData).forEach((key) => {
-      const value = cleanedData[key];
+      let value = cleanedData[key];
       if (value === "") {
         return;
       }
 
+      value = value.normalize("NFKC");
+      cleanedData[key] = value;
+
+      // 半角数字のみ、13桁制限
       if (!/^\d+$/.test(value) || value.length > 13) {
         cleanedData[key] = "";
         hasError = true;
       }
     });
 
+    setFormData(cleanedData);
+
+    // エラーメッセージ
     if (hasError) {
       setFormData(cleanedData);
-      setErrorMessage("枚数・本数は0以上の半角整数で入力してください。")
+      setErrorMessage("枚数・本数は0以上で13桁以内の整数で入力してください。")
       return;
     }
 
