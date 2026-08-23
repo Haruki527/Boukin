@@ -67,31 +67,12 @@ function App() {
   const handleChange = (e) => {
     const {name, value} = e.target;
 
-    // 空欄は許可する
-    if (value === "") {
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         [name]: value,
-      });
-
+      }));
       setErrorMessage("");
-      return;
     }
-
-    // 0以上の整数かチェック
-    if (!/^\d+$/.test(value)) {
-      setErrorMessage("枚数・本数は半角数字の0以上の整数で入力してください。");
-      return;
-    }
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    // 正しい入力ならエラーを消す
-    setErrorMessage("");
-  };
 
   // クリアボタン
   const handleClear = () => {
@@ -102,23 +83,50 @@ function App() {
 
   // 計算ボタン
   const handleCalculate = async () => {
+    const cleanedData = { ...formData };
+    let hasError = false;
 
-    if (errorMessage) {
-      alert("入力内容を修正してください。");
+    Object.keys(cleanedData).forEach((key) => {
+      const value = cleanedData[key];
+      if (value === "") {
+        return;
+      }
+
+      if (!/^\d+$/.test(value) || value.length > 13) {
+        cleanedData[key] = "";
+        hasError = true;
+      }
+    });
+
+    if (hasError) {
+      setFormData(cleanedData);
+      setErrorMessage("枚数・本数は0以上の半角整数で入力してください。")
       return;
     }
 
+    // 空欄は0として送信
+    const requestData = {};
+    Object.keys(cleanedData).forEach((key) => {
+      requestData[key] =
+          cleanedData[key] === "" ? 0 : Number(cleanedData[key]);
+    });
+
     try {
-
-      const data = await calculateMoney(formData);
-
+      const data = await calculateMoney(requestData);
       setTotalAmount(data.totalAmount);
-
+      setErrorMessage("");
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleCalculate();
+    }
+  }
 
   return (
       <div className="boukin">
@@ -133,6 +141,7 @@ function App() {
               items={coinItems}
               formData={formData}
               handleChange={handleChange}
+              handleKeyDown={handleKeyDown}
           />
 
           {/* 棒金 */}
@@ -141,6 +150,7 @@ function App() {
               items={rollItems}
               formData={formData}
               handleChange={handleChange}
+              handleKeyDown={handleKeyDown}
           />
 
         </div>
@@ -152,6 +162,7 @@ function App() {
                 items={banknoteItems}
                 formData={formData}
                 handleChange={handleChange}
+                handleKeyDown={handleKeyDown}
             />
         </div>
 

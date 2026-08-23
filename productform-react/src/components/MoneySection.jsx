@@ -2,7 +2,8 @@ function MoneySection({
                           title,
                           items,
                           formData,
-                          handleChange
+                          handleChange,
+                          handleKeyDown
                       }) {
     return (
         <div className="money-column">
@@ -14,11 +15,12 @@ function MoneySection({
 
                     <input
                         type="text"
-                        min="0"
-                        step="1"
+                        inputMode="numeric"
                         name={item.name}
                         value={formData[item.name]}
                         onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        maxLength={13}
                     />
                 </div>
             ))}
