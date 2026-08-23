@@ -55,7 +55,7 @@ h2 {
 }
 
 .input-error {
-  border: 2px solid #ef9a9a;
+  border: 2px solid #dc3545 !important;
   outline: none;
 }
 
@@ -99,4 +99,8 @@ h2 {
 
 .input-group {
   margin-bottom: 8px;
+}
+
+.unit {
+  margin-left: -5px;
 }
