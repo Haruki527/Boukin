@@ -63,6 +63,9 @@ function App() {
   // エラーメッセージ
   const [errorMessage, setErrorMessage] = useState("");
 
+  // 個別エラー
+  const [fieldErrors, setFieldErrors] = useState({});
+
   // 入力フォームが変更されたとき
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,19 +75,25 @@ function App() {
         [name]: value,
       }));
 
-      setErrorMessage("");
-    }
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    };
 
   // クリアボタン
   const handleClear = () => {
     setFormData(initialFormData);
     setTotalAmount(0);
     setErrorMessage("");
+    setFieldErrors({});
   };
 
   // 計算ボタン
   const handleCalculate = async () => {
     const cleanedData = { ...formData };
+    const errors = {};
     let hasError = false;
 
     // 空欄時は許可
@@ -94,12 +103,14 @@ function App() {
         return;
       }
 
+      // 全角数字を半角数字に変換
       value = value.normalize("NFKC");
       cleanedData[key] = value;
 
       // 半角数字のみ、13桁制限
       if (!/^\d+$/.test(value) || value.length > 13) {
         cleanedData[key] = "";
+        errors[key] = "0以上13桁以内の整数で入力してください。";
         hasError = true;
       }
     });
@@ -108,10 +119,12 @@ function App() {
 
     // エラーメッセージ
     if (hasError) {
-      setFormData(cleanedData);
-      setErrorMessage("枚数・本数は0以上で13桁以内の整数で入力してください。")
+      setFieldErrors(errors);
       return;
     }
+
+    // エラーがなければクリア
+    setFieldErrors({});
 
     // 空欄は0として送信
     const requestData = {};
@@ -123,7 +136,6 @@ function App() {
     try {
       const data = await calculateMoney(requestData);
       setTotalAmount(data.totalAmount);
-      setErrorMessage("");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -151,6 +163,7 @@ function App() {
               formData={formData}
               handleChange={handleChange}
               handleKeyDown={handleKeyDown}
+              fieldErrors={fieldErrors}
           />
 
           {/* 棒金 */}
@@ -160,6 +173,7 @@ function App() {
               formData={formData}
               handleChange={handleChange}
               handleKeyDown={handleKeyDown}
+              fieldErrors={fieldErrors}
           />
 
         </div>
@@ -172,6 +186,7 @@ function App() {
                 formData={formData}
                 handleChange={handleChange}
                 handleKeyDown={handleKeyDown}
+                fieldErrors={fieldErrors}
             />
         </div>
 

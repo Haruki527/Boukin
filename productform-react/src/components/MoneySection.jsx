@@ -3,29 +3,41 @@ function MoneySection({
                           items,
                           formData,
                           handleChange,
-                          handleKeyDown
+                          handleKeyDown,
+                        　fieldErrors
                       }) {
     return (
         <div className="money-column">
             <h2>{title}</h2>
 
             {items.map((item) => (
-                <div className="input-row" key={item.name}>
-                    <label>{item.label}</label>
+                <div className="input-group" key={item.name}>
 
-                    <input
-                        type="text"
-                        inputMode="numeric"
-                        name={item.name}
-                        value={formData[item.name]}
-                        onChange={handleChange}
-                        onKeyDown={handleKeyDown}
-                        maxLength={13}
-                    />
+                    <div className="input-row">
+                        <label>{item.label}</label>
 
-                    <span className={"unit"}>
+                        <input
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={13}
+                            name={item.name}
+                            value={formData[item.name]}
+                            onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                            className={fieldErrors[item.name] ? "input-error" : ""}
+                        />
+
+                        <span className={"unit"}>
                         {title === "棒金" ? "本" : "枚"}
                     </span>
+                    </div>
+
+                    {fieldErrors[item.name] && (
+                        <p className="field-error">
+                            {fieldErrors[item.name]}
+                        </p>
+                    )}
+
                 </div>
             ))}
         </div>

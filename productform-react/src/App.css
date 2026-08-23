@@ -21,6 +21,11 @@ h2 {
   width: 220px;
 }
 
+.money-column h2 {
+  text-align: center;
+  margin-left: 80px;
+}
+
 .input-row {
   display: flex;
   align-items: center;
@@ -39,7 +44,19 @@ h2 {
 .input-row input {
   width: 100px;
   padding: 5px;
+  border: 1px solid #bdbdbd;
+  transition: border-color 0.2s;
   text-align: right;
+}
+
+.input-row input:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.input-error {
+  border: 2px solid #ef9a9a;
+  outline: none;
 }
 
 .banknote-section {
@@ -70,4 +87,16 @@ h2 {
   margin-top: 20px;
   margin-bottom: 10px;
   font-weight: bold;
+}
+
+.field-error {
+  color: #d32f2f;
+  font-size: 14px;
+  margin: -13px 0 6px 50px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.input-group {
+  margin-bottom: 8px;
 }
