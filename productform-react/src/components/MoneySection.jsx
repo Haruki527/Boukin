@@ -40,6 +40,12 @@ function MoneySection({
 
                 </div>
             ))}
+
+            {title === "棒金" && (
+                <p className="coin-roll-description">
+                    ※棒金＝硬貨50枚のまとまり
+                </p>
+            )}
         </div>
     );
 }
