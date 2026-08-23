@@ -22,6 +22,10 @@ function MoneySection({
                         onKeyDown={handleKeyDown}
                         maxLength={13}
                     />
+
+                    <span className={"unit"}>
+                        {title === "棒金" ? "本" : "枚"}
+                    </span>
                 </div>
             ))}
         </div>
